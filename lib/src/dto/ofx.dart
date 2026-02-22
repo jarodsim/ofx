@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:ofx/src/adapter/date_time_adapter.dart';
-import 'package:ofx/src/adapter/xml_to_json_adapter.dart';
-import 'package:ofx/src/models/financial_institution.dart';
-import 'package:ofx/src/models/status.dart';
-import 'package:ofx/src/models/transaction.dart';
+import 'package:ofx_parser/src/adapter/date_time_adapter.dart';
+import 'package:ofx_parser/src/adapter/xml_to_json_adapter.dart';
+import 'package:ofx_parser/src/models/financial_institution.dart';
+import 'package:ofx_parser/src/models/status.dart';
+import 'package:ofx_parser/src/models/transaction.dart';
 
 class Ofx {
   final Status statusOfx;

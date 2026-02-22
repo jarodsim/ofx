@@ -1,32 +1,47 @@
-# Ofx
+# ofx_parser
 
-This package converts the string from an ofx (Open Financial Exchange) file into a class.
+A robust and powerful Dart package to parse OFX (Open Financial Exchange) and QFX files into strongly-typed Dart classes.
 
-## Initialization
+Created and maintained by [Jarod Cavalcante](https://jarod.dev). Based on the original `ofx` package by Francisco Valerio.
 
-Import `package:ofx/ofx.dart` library.
+## Installation
 
-[`Ofx`] can be called as follows.
+Add this to your package's `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  ofx_parser: ^1.0.0
+```
+
+## Usage
+
+Import `package:ofx_parser/ofx_parser.dart`.
+
+Using `Ofx.fromString` is straightforward:
 
 ```dart
-import 'package:ofx/ofx.dart';
+import 'dart:io';
+import 'package:ofx_parser/ofx_parser.dart';
 
-Future<void> main() {
-   File('file.ofx').readAsString().then((String contents) {
-      print( Ofx.fromString(contents) );
-   });
+Future<void> main() async {
+   final contents = await File('file.ofx').readAsString();
+   final ofx = Ofx.fromString(contents);
+   
+   print("Server date: ${ofx.serverLocal}");
+   print("Account ID: ${ofx.accountID}");
+   print("Balance: ${ofx.balance}");
+   print("Parsed ${ofx.transactions.length} transactions.");
 }
 ```
 
-#### Convert DateTimes between time zones
+## Features
 
-The conversion to class already converts the `DateTime` fields to the local time zone.
+- Parse standard and malformed SGML/XML OFX and QFX files.
+- Built-in timezone local date converters (`serverLocal`, `startLocal`, `endLocal`, `postedLocal`).
+- Strongly typed properties for FI, Accounts, Status, and Transactions.
+- Lightweight with minimal dependencies.
 
-```dart
-var ofx = Ofx.fromString('');
-ofx.serverLocal;
-ofx.startLocal;
-ofx.endLocal;
+## Contributors
 
-ofx.transactions[index].postedLocal;
-```
+- [Jarod Cavalcante](https://jarod.dev)
+- Francisco Valerio (Original Author)

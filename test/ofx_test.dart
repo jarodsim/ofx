@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:ofx/ofx.dart';
+import 'package:ofx_parser/ofx_parser.dart';
 import 'package:test/test.dart';
 
 void main() {

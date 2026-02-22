@@ -1,7 +1,7 @@
-name: ofx
-description: convert string ofx (Open Financial Exchange) file to a class 
+name: ofx_parser
+description: A powerful and robust parser for Open Financial Exchange (OFX) and QFX files in Dart. Converts OFX/QFX data into strongly-typed Dart classes with timezone handling.
 version: 1.0.0
-repository: https://github.com/FranciscoValerio/ofx
+repository: https://github.com/jarodsim/ofx
 
 environment:
   sdk: ^3.1.0

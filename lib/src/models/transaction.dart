@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ofx/src/adapter/date_time_adapter.dart';
+import 'package:ofx_parser/src/adapter/date_time_adapter.dart';
 
 class Transaction {
   final String type;
