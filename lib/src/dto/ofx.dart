@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:ofx/src/adapter/date_time_adapter.dart';
@@ -23,6 +22,8 @@ class Ofx {
   final DateTime startLocal;
   final DateTime end;
   final DateTime endLocal;
+  final double? balance;
+  final DateTime? balanceDate;
   final List<Transaction> transactions;
 
   Ofx({
@@ -41,6 +42,8 @@ class Ofx {
     required this.startLocal,
     required this.end,
     required this.endLocal,
+    this.balance,
+    this.balanceDate,
     required this.transactions,
   });
 
@@ -60,6 +63,8 @@ class Ofx {
     DateTime? startLocal,
     DateTime? end,
     DateTime? endLocal,
+    double? balance,
+    DateTime? balanceDate,
     List<Transaction>? transactions,
   }) {
     return Ofx(
@@ -78,6 +83,8 @@ class Ofx {
       startLocal: startLocal ?? this.startLocal,
       end: end ?? this.end,
       endLocal: endLocal ?? this.endLocal,
+      balance: balance ?? this.balance,
+      balanceDate: balanceDate ?? this.balanceDate,
       transactions: transactions ?? this.transactions,
     );
   }
@@ -99,6 +106,8 @@ class Ofx {
       'start_local': startLocal.millisecondsSinceEpoch,
       'end': end.millisecondsSinceEpoch,
       'end_local': endLocal.millisecondsSinceEpoch,
+      'balance': balance,
+      'balanceDate': balanceDate?.millisecondsSinceEpoch,
       'transactions': transactions.map((x) => x.toMap()).toList(),
     };
   }
@@ -138,11 +147,26 @@ class Ofx {
       end: DateTimeAdapter.stringToDateTime(bankTransactions['DTEND']),
       endLocal: DateTimeAdapter.stringDateTimeInTimeZoneLocal(
           bankTransactions['DTEND']),
-      transactions: List<Transaction>.from(
-        (bankTransactions['STMTTRN'] as List<dynamic>).map<Transaction>(
-          (x) => Transaction.fromMapOfx(x),
-        ),
-      ),
+      balance: statementTransaction['LEDGERBAL'] != null &&
+              statementTransaction['LEDGERBAL']['BALAMT'] != null
+          ? double.tryParse(statementTransaction['LEDGERBAL']['BALAMT']
+              .toString()
+              .replaceAll(',', '.'))
+          : null,
+      balanceDate: statementTransaction['LEDGERBAL'] != null &&
+              statementTransaction['LEDGERBAL']['DTASOF'] != null
+          ? DateTimeAdapter.stringToDateTime(
+              statementTransaction['LEDGERBAL']['DTASOF'])
+          : null,
+      transactions: bankTransactions['STMTTRN'] is List
+          ? List<Transaction>.from(
+              (bankTransactions['STMTTRN'] as List).map(
+                (x) => Transaction.fromMapOfx(x),
+              ),
+            )
+          : bankTransactions['STMTTRN'] != null
+              ? [Transaction.fromMapOfx(bankTransactions['STMTTRN'])]
+              : [],
     );
   }
 
@@ -167,6 +191,10 @@ class Ofx {
           DateTime.fromMillisecondsSinceEpoch(map['start_local'] as int),
       end: DateTime.fromMillisecondsSinceEpoch(map['end'] as int),
       endLocal: DateTime.fromMillisecondsSinceEpoch(map['end_local'] as int),
+      balance: map['balance'] as double?,
+      balanceDate: map['balanceDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['balanceDate'] as int)
+          : null,
       transactions: List<Transaction>.from(
         (map['transactions'] as List<dynamic>).map<Transaction>(
           (x) => Transaction.fromMap(x as Map<String, dynamic>),
@@ -182,6 +210,6 @@ class Ofx {
 
   @override
   String toString() {
-    return 'Ofx(statusOfx: $statusOfx, server: $server, serverLocal: $serverLocal, language: $language, financialInstitution: $financialInstitution, transactionUniqueID: $transactionUniqueID, statusTransaction: $statusTransaction, currency: $currency, bankID: $bankID, accountID: $accountID, accountType: $accountType, start: $start, startLocal: $startLocal, end: $end, endLocal: $endLocal, transactions: $transactions)';
+    return 'Ofx(statusOfx: $statusOfx, server: $server, serverLocal: $serverLocal, language: $language, financialInstitution: $financialInstitution, transactionUniqueID: $transactionUniqueID, statusTransaction: $statusTransaction, currency: $currency, bankID: $bankID, accountID: $accountID, accountType: $accountType, start: $start, startLocal: $startLocal, end: $end, endLocal: $endLocal, balance: $balance, balanceDate: $balanceDate, transactions: $transactions)';
   }
 }

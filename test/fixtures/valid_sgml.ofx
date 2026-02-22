@@ -1,0 +1,68 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:UTF-8
+CHARSET:1252
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+
+<OFX>
+  <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <DTSERVER>20231015120000[-3:BRT]</DTSERVER>
+      <LANGUAGE>POR</LANGUAGE>
+      <FI>
+        <ORG>Banco Ficticio</ORG>
+        <FID>123</FID>
+      </FI>
+    </SONRS>
+  </SIGNONMSGSRSV1>
+
+  <BANKMSGSRSV1>
+    <STMTTRNRS>
+      <TRNUID>1001</TRNUID>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <STMTRS>
+        <CURDEF>BRL</CURDEF>
+        <BANKACCTFROM>
+          <BANKID>341</BANKID>
+          <ACCTID>12345-6</ACCTID>
+          <ACCTTYPE>CHECKING</ACCTTYPE>
+        </BANKACCTFROM>
+        <BANKTRANLIST>
+          <DTSTART>20231001000000[-3:BRT]</DTSTART>
+          <DTEND>20231015235959[-3:BRT]</DTEND>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20231005120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-150.00</TRNAMT>
+            <FITID>20231005001</FITID>
+            <MEMO>Pagamento de conta</MEMO>
+            <NAME>Loja X</NAME>
+            <CHECKNUM>CHQ99</CHECKNUM>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20231010090000[-3:BRT]</DTPOSTED>
+            <TRNAMT>3000.00</TRNAMT>
+            <FITID>20231010001</FITID>
+            <MEMO>Transferencia recebida</MEMO>
+          </STMTTRN>
+        </BANKTRANLIST>
+        <LEDGERBAL>
+          <BALAMT>4500.00</BALAMT>
+          <DTASOF>20231015235959[-3:BRT]</DTASOF>
+        </LEDGERBAL>
+      </STMTRS>
+    </STMTTRNRS>
+  </BANKMSGSRSV1>
+</OFX>

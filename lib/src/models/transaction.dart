@@ -8,8 +8,10 @@ class Transaction {
   final DateTime postedLocal;
   final double amount;
   final String financialInstitutionID;
-  final String referenceNumber;
-  final String memo;
+  final String? referenceNumber;
+  final String? memo;
+  final String? name;
+  final String? checkNum;
 
   Transaction({
     required this.type,
@@ -17,8 +19,10 @@ class Transaction {
     required this.postedLocal,
     required this.amount,
     required this.financialInstitutionID,
-    required this.referenceNumber,
-    required this.memo,
+    this.referenceNumber,
+    this.memo,
+    this.name,
+    this.checkNum,
   });
 
   Transaction copyWith({
@@ -29,6 +33,8 @@ class Transaction {
     String? financialInstitutionID,
     String? referenceNumber,
     String? memo,
+    String? name,
+    String? checkNum,
   }) {
     return Transaction(
       type: type ?? this.type,
@@ -39,6 +45,8 @@ class Transaction {
           financialInstitutionID ?? this.financialInstitutionID,
       referenceNumber: referenceNumber ?? this.referenceNumber,
       memo: memo ?? this.memo,
+      name: name ?? this.name,
+      checkNum: checkNum ?? this.checkNum,
     );
   }
 
@@ -51,6 +59,8 @@ class Transaction {
       'financial_institution_id': financialInstitutionID,
       'reference_number': referenceNumber,
       'memo': memo,
+      'name': name,
+      'check_num': checkNum,
     };
   }
 
@@ -61,10 +71,12 @@ class Transaction {
       postedLocal: DateTimeAdapter.stringDateTimeInTimeZoneLocal(
         map['DTPOSTED'],
       ),
-      amount: double.parse(map['TRNAMT']),
+      amount: double.parse(map['TRNAMT'].toString().replaceAll(',', '.')),
       financialInstitutionID: map['FITID'].toString(),
-      referenceNumber: map['REFNUM'].toString(),
-      memo: map['MEMO'].toString(),
+      referenceNumber: map['REFNUM']?.toString(),
+      memo: map['MEMO']?.toString(),
+      name: map['NAME']?.toString(),
+      checkNum: map['CHECKNUM']?.toString(),
     );
   }
 
@@ -77,8 +89,10 @@ class Transaction {
       ),
       amount: map['amount'] ?? 0.0,
       financialInstitutionID: map['financial_institution_id'].toString(),
-      referenceNumber: map['reference_number'].toString(),
-      memo: map['memo'].toString(),
+      referenceNumber: map['reference_number']?.toString(),
+      memo: map['memo']?.toString(),
+      name: map['name']?.toString(),
+      checkNum: map['check_num']?.toString(),
     );
   }
 
@@ -89,6 +103,6 @@ class Transaction {
 
   @override
   String toString() {
-    return 'Transaction(type: $type, posted: $posted, postedLocal: $postedLocal, amount: $amount, financialInstitutionID: $financialInstitutionID, referenceNumber: $referenceNumber, memo: $memo)';
+    return 'Transaction(type: $type, posted: $posted, postedLocal: $postedLocal, amount: $amount, financialInstitutionID: $financialInstitutionID, referenceNumber: $referenceNumber, memo: $memo, name: $name, checkNum: $checkNum)';
   }
 }

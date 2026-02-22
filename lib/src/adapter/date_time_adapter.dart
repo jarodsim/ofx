@@ -1,13 +1,22 @@
 sealed class DateTimeAdapter {
   static DateTime stringToDateTime(String dateString) {
-    /*20231109163440[-3:GMT]*/
-    var year = int.parse(dateString.substring(00, 04));
-    var month = int.parse(dateString.substring(04, 06));
-    var day = int.parse(dateString.substring(06, 08));
+    /*20231109163440[-3:GMT] or 20231109 */
+    if (dateString.length < 8) return DateTime.now();
 
-    var hour = int.parse(dateString.substring(08, 10));
-    var minute = int.parse(dateString.substring(10, 12));
-    var second = int.parse(dateString.substring(12, 14));
+    var year = int.tryParse(dateString.substring(0, 4)) ?? 0;
+    var month = int.tryParse(dateString.substring(4, 6)) ?? 1;
+    var day = int.tryParse(dateString.substring(6, 8)) ?? 1;
+
+    var hour = 0;
+    var minute = 0;
+    var second = 0;
+
+    if (dateString.length >= 14 &&
+        !dateString.substring(8, 10).startsWith('[')) {
+      hour = int.tryParse(dateString.substring(8, 10)) ?? 0;
+      minute = int.tryParse(dateString.substring(10, 12)) ?? 0;
+      second = int.tryParse(dateString.substring(12, 14)) ?? 0;
+    }
 
     return DateTime.utc(year, month, day, hour, minute, second);
   }
