@@ -44,10 +44,7 @@ void main() {
   </BANKMSGSRSV1>
 </OFX>''';
 
-    String expectedPieces = '''
-        <BANKID>341</BANKID>
-        <ACCTID>12345-6</ACCTID>
-        <ACCTTYPE>CHECKING</ACCTTYPE>''';
+
 
     var xmlData = sanitizeSgmlToXml(sgml);
     print('SANITIZED XML:\\n${xmlData}');
